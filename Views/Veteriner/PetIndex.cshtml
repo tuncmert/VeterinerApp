@@ -1,0 +1,317 @@
+@model Veterinerapp.Models.DB.Pet
+
+<body class="wallpaper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="profile-card">
+                <div class="card-headerr">
+                    <div class="pic" style="margin-top: 40px;">
+                        <img
+                            src='@(Model?.Foto==null?"/images/NoImage2.png":$"data:image/png;base64,{Convert.ToBase64String(Model.Foto)}")'
+                            alt="">
+                    </div>
+                    <div class="ozellik">
+                    <div class="name" style="font-size: 30px;">@Model.Ad</div>
+                    <div class="desc">Tür : <span style="color: white;">@Model.Tur</span></div>
+                    <div class="desc">Cins : <span style="color: white;">@Model.Cins</span></div>
+                    <div class="desc">Kilo : <span style="color: white;">@Model.Kilo</span></div>
+                    <div class="desc">Pet TC: <span style="color: white;">@Model.PetTc</span></div>
+                    <div class="desc">Pet Dogum Tarihi:</div>
+                    <div class="desc" style="color: white;">@(string.Format("{0:yyyy-MM-dd}",Model.DogumTarihi))</div>
+                    <button class="contact-btn" id="btnPetGuncelle">Bilgileri Güncelle</button>
+                    <button class="contact-btn" id="btnTedavi">Tedavi Ekle</button>
+                    <a href="/Veteriner/VeterinerIndex" class="contact-btn"><i class="fas fa-arrow-left"></i> Profile Dön</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card col-6 offset-md-4">
+                <div class="card-body" style="background-color:#FEFCFB; color:black;">
+                    <table id="tblIslemListesi" style="text-align: center;" class="hover display cell-border">
+                        <thead>
+                            <tr>
+                                <th colspan="4">İşlemler</th>
+                            </tr>
+                            <tr>
+                                <th>İşlem</th>
+                                <th>İşlem Tarihi</th>
+                                <th>Veteriner</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Tedavis)
+                            {
+                                <tr>
+                                    <td>@item.Ad</td> 
+                                    <td>@string.Format("{0:dd.MM.yyyy}",item.Tarih)</td>
+                                    <td>@item.Veteriner.VeterinerAd @item.Veteriner.VeterinerSoyad</td>
+                                    <td><button class="btn btn-sm btn-info">Detay</button></td>
+                                </tr>
+                            }
+                            @foreach (var item in Model.Asis)
+                            {
+                                <tr>
+                                    <td>@item.Ad</td>
+                                    <td>@string.Format("{0:dd.MM.yyyy}",item.Tarih)</td>
+                                    <td>@item.Veteriner.VeterinerAd @item.Veteriner.VeterinerSoyad</td>
+                                    <td><button class="btn btn-sm btn-info" data-islemid="@item.Id" onclick="btnIslemClicked(this)">Detay</button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="modalPetDuzenle">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pet Bilgilerimi Güncelle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="txbPetKilo" class="form-label">Kilo</label>
+                            <input type="text" class="form-control" id="txbPetKilo" value="@Model.Kilo">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txbPetTur" class="form-label">Tür</label>
+                            <input type="text" class="form-control" id="txbPetTur" value="@Model.Tur">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txbPetDogumTarihi" class="form-label">Doğum Tarihi</label>
+                            <input type="date" class="form-control" id="txbPetDogumTarihi" value='@(string.Format("{0:yyyy-MM-dd}",Model.DogumTarihi))'>
+                        </div>
+                        <div>
+                            <span>Pet Fotoğrafı</span>
+                            <input type="file" id="file">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" style="filter:hue-rotate(80deg);" class="btn btn-info" id="btnPetKaydet">Kaydet</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@*********** TEDAVİ EKLE *********@
+    <div class="modal" tabindex="-1" role="dialog" id="modalTedavi">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tedavi Ekle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <select class="form-select btn btn-info col-12" style="filter:hue-rotate(80deg);" aria-label="Default select example" id="hangisi">
+                                 <option selected disabled>Tedavi Türü Seçiniz</option>
+                                 <option value="1">Aşı</option>
+                                 <option value="2">Tedavi</option>
+                            </select>
+                            @* <label for="txbPetKilo" class="form-label">Tedavi</label> *@
+                            @* <input type="text" class="form-control" id="txbPetKilo" value="@Model.Kilo"> *@
+                        </div>
+                        <div class="mb-3">
+                            <label for="txbTedaviDetay" class="form-label">Not</label>
+                            <textarea name="" class="form-control" id="txbTedaviDetay" cols="30" rows="4"></textarea>
+                        </div>
+                        <div>
+                            <label for="txbTedaviAd" class="form-label">Tedavi-Aşı Adı</label>
+                            <input type="text" class="form-control" id="txbTedaviAd">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txbTedaviTarihi" class="form-label">Tarih</label>
+                            <input type="date" class="form-control" id="txbTedaviTarihi" value='@(string.Format("{0:yyyy-MM-dd}",Model.DogumTarihi))'>
+                        </div>
+                        @* <div>
+                            <span>Pet Fotoğrafı</span>
+                            <input type="file" id="file">
+                        </div> *@
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" style="filter:hue-rotate(80deg);" class="btn btn-info" id="btnTedaviKaydet">Kaydet</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="modal" tabindex="-1" role="dialog" id="modalIslemDetay">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">İşlem Detayı</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="txbIslemAdi" class="form-label">İşlem Adı</label>
+                            <input disabled type="text" class="form-control" id="txbIslemAdi">
+                        </div>
+                        <div class="mb-3">
+                            <label for="textIslemDetay" class="form-label">İşlem Detayı</label>
+                            <textarea disabled class="form-control" id="textIslemDetay"></textarea> 
+                        </div>
+                        <div class="mb-3">
+                            <label for="txbVeteriner" class="form-label">Veteriner</label>
+                            <input disabled type="text" class="form-control" id="txbVeteriner">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txbIslemTarih" class="form-label">Aşı Tarihi</label>
+                            <input disabled type="text" class="form-control" id="txbIslemTarih">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Styles{
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+<link rel="stylesheet" href="~/css/tasarim.css" />
+<link rel="stylesheet" href="~/css/PetIndex.css" />
+}
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#btnPetGuncelle').click(function () {
+                $('#modalPetDuzenle').modal('show');
+            });
+            $('#tblIslemListesi').DataTable();
+            $('#btnPetKaydet').click(function () {
+                var file_data = document.getElementById('file').files[0];
+                var form_data = new FormData();
+                form_data.append('dosya', file_data);
+                form_data.append('Id', "@Model.Id");
+                form_data.append('Kilo', $('#txbPetKilo').val());
+                form_data.append('Tur', $('#txbPetTur').val());
+                form_data.append('DogumTarihi',$('#txbPetDogumTarihi').val());
+                console.log(form_data);
+                $.ajax({
+                    url: '@Url.Action("PetDuzenle","Veteriner")',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: form_data,
+                    type: 'post',
+                    success: function (result) {
+                        if (result == 1) {
+                            swal("Tebrikler!", "Pet Başarıyla Güncellendi", "success").then(function () {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function (err) {
+                        console.error(err.statusText);
+                        if(err==0)
+                            swal ( "Oops" ,  "Girilen Verileri Kontrol Edin!" ,  "error" );
+                    }
+                });
+            });
+            $('#btnTedavi').click(function () {
+                $('#modalTedavi').modal('show');
+            });
+            $('#tblIslemListesi').DataTable();
+            $('#btnTedaviKaydet').click(function () {
+                var hangisi = $('#hangisi').val();
+                var tedaviAd = $('#txbTedaviAd').val();
+                var tedaviDetay = $('#txbTedaviDetay').val();
+                var petId = "@Model.Id";
+                var veterinerId = "@Model.Veteriner.VeterinerId";
+                var tedaviTarih= $('#txbTedaviTarihi').val();
+                var obj = { Ad: tedaviAd, Detay: tedaviDetay, PetId: petId, VeterinerId: veterinerId, Tarih: tedaviTarih };
+                if(hangisi==null){
+                    swal ( "Oops" ,  "Girilen Verileri Kontrol Edin!" ,  "error" );
+                }
+                if (hangisi == 1)
+                {
+                    $.ajax({
+                        url: '@Url.Action("AsiEkle","Veteriner")',
+                        type: 'post',
+                        data: JSON.stringify(obj),
+                        dataType: 'json',
+                        contentType: 'application/json;charset=utf-8',
+                        success: function (result) {
+                            if (result == 1) {
+                            swal("Tebrikler!", "Aşı Başarıyla Eklendi", "success").then(function () {
+                                location.reload();
+                            });
+                            }
+                        },
+                        error: function (err) {
+                            console.error(err.statusText);
+                            if(err==0)
+                                swal ( "Oops" ,  "Girilen Verileri Kontrol Edin!" ,  "error" );
+                        }
+                    });
+                }
+                else if (hangisi == 2)
+                {
+                    $.ajax({
+                        url: '@Url.Action("TedaviEkle","Veteriner")',
+                        type: 'post',
+                        data: JSON.stringify(obj),
+                        dataType: 'json',
+                        contentType: 'application/json;charset=utf-8',
+                        success: function (result) {
+                            if (result == 1) {
+                            swal("Tebrikler!", "Tedavi Başarıyla Eklendi", "success").then(function () {
+                                location.reload();
+                            });
+                            }
+                        },
+                        error: function (err) {
+                            console.error(err.statusText);
+                            if(err==0)
+                                swal ( "Oops" ,  "Girilen Verileri Kontrol Edin!" ,  "error" );
+                        }
+                    });         
+                }
+
+            });
+        });
+        @* function btnIslemClicked(elem){
+            var islemId=$(elem).data('islemid');
+            var obj = {};
+            obj.Id= islemId;
+            $.ajax({
+                url: '@Url.Action("IslemDetayAjax","Veteriner")',
+                type: 'post',
+                data: JSON.stringify(obj),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8',
+                success: function (result) {
+                    console.log(result);
+                    $('#modalIslemDetay').modal('show');
+                    $('#txbIslemAdi').val(result.ad);
+                    $('#textIslemDetay').text(result.aciklama);
+                    $('#txbVeteriner').val('@Html.Raw(Model.Veteriner==null?"Veteriner Atanmadı":Model.Veteriner.VeterinerAd+" "+Model.Veteriner.VeterinerSoyad)');
+                    $('#txbIslemTarih').val(new Date(result.tarih).toLocaleDateString());
+                },
+                error: function (err) {
+                    console.error(err.statusText);
+                }
+            });
+        } *@
+    </script>
+}

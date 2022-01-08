@@ -1,0 +1,48 @@
+@{
+    Layout = "../Shared/_AdminLayout.cshtml";
+}
+@model List<Veterinerapp.Models.DB.Pet>
+
+<div class="card col-8 offset-md-2">
+    <div class="card-header">
+        <h3 style="text-align: center;">Petler Listesi</h3>
+    </div>
+    <div class="card-body" style="background-color:#FEFCFB; color:black;">
+        <table id="tblPetListesi" style="text-align: center;" class="hover display cell-border">
+            <thead>
+                <tr>
+                    <th colspan="6">Kurumlar</th>
+                </tr>
+                <tr>
+                    <th>Pet Sahibi</th>
+                    <th>Pet Cins</th>
+                    <th>Pet Türü</th>
+                    <th>Kullanıcı Adı</th>
+                    <th>Kullanıcı Şifresi</th>
+                    <th>Veteriner</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.PetSahip.SahipAd @item.PetSahip.SahipSoyad</td>
+                        <td>@item.Cins</td>
+                        <td>@item.Tur</td>
+                        <td>@item.PetSahip.KullaniciAdi</td>
+                        <td>@item.PetSahip.SahipSifre</td>
+                        <td><br><a class='btn btn-sm btn-info @(item.Veteriner==null?"d-none":"")' href="/Admin/VeterinerIndex/@item.Veteriner?.VeterinerId">Veteriner Detay</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+            $('#tblPetListesi').DataTable();
+        })
+    </script>
+}

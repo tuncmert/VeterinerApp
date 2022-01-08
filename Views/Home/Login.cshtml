@@ -1,0 +1,45 @@
+<body class="wall">
+		<div class="l1">
+		<img id="img112" class="wawe" style="filter: hue-rotate(100deg);" src="~/resimler/LOGIN-BACK.png">
+		<div class="container ust">
+		<div class="img">
+			<img src="~/resimler/LOGIN-PET.png">
+		</div>
+		<div class="login-container">
+			<form method="post" asp-action="Login">
+				<img class="avatar" src="~/resimler/LOGIN-AVATAR-2.png">
+				<h2 style="color: #9900ff;">Kullanıcı</h2>
+				<div class="input-div one">
+					<div class="i">
+						<i class="fas fa-user"></i>
+					</div>
+					<div>
+						<input class="input" type="text" placeholder="Kullanıcı adı" name="kullaniciAdi">
+					</div>
+				</div>
+				<div class="input-div two">
+					<div class="i">
+						<i class="fas fa-lock"></i>
+					</div>
+					<div>
+						<input class="input" type="password" placeholder="Şifre" name="sifre">
+					</div>
+				</div>
+				<br>
+				<button id="btnuye" type="submit" class="btn-l2">GİRİŞ YAP</button>
+				@ViewBag.KullaniciMessage
+				<a href="/Home/VetLogin"><input id="btnvet" type="button" class="btn2-l2" value="Veteriner girişi"></a>
+			</form>
+		</div>
+	</div>
+	</div>
+</body>
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/Login.css">
+	<link rel="stylesheet" href="~/css/tasarim.css">
+}
+@section Scripts
+{	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+}

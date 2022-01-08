@@ -1,0 +1,162 @@
+.bilgi
+{
+    height: 225px;
+    color: white;
+    text-align: left;
+}
+.karsilik
+{
+    background: transparent;
+    border: 0;
+    height: 30px;
+}
+
+
+
+
+
+
+
+.bodyy{
+    height: 100vh;
+    background: url(https://static-cdn.jtvnw.net/jtv_user_pictures/f3382d86-ba1d-43df-8f8c-1644b11700b5-profile_image-300x300.png) no-repeat center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .profile-card{
+    position: absolute;
+    width: 350px;
+    text-align: center;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .card-headerr{
+    background: linear-gradient(130deg, #0f1318, #28343f);
+    padding: 85px 40px;
+  }
+  
+  .pic{
+    display: inline-block;
+    padding: 8px;
+    background: linear-gradient(130deg, #b438d3, #3b0858, #8838d3);
+    margin: auto;
+    border-radius: 50%;
+    background-size: 200% 200%;
+    animation: animated-gradient 7s linear infinite;
+  }
+  
+  @keyframes animated-gradient{
+    25%{
+      background-position: left bottom;
+    }
+    50%{
+      background-position: right bottom;
+    }
+    75%{
+      background-position: right top;
+    }
+    100%{
+      background-position: left top;
+    }
+  }
+  
+  .pic img{
+    display: block;
+    width: 175px;
+    height: 175px;
+    border-radius: 50%;
+  }
+  
+  .name{
+    color: #f2f2f2;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 10px 0;
+  }
+  
+  .desc{
+    font-size: 18px;
+    color: #e100ff;
+  }
+  
+  .sm{
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .sm a{
+    color: #f2f2f2;
+    background-color: transparent;
+    width: 56px;
+    font-size: 22px;
+    transition: .3s linear;
+  }
+  .sm button{
+    color: #f2f2f2;
+    background-color: transparent;
+    width: 56px;
+    font-size: 22px;
+    transition: .3s linear;
+  }
+  
+  .sm a:hover{
+    color: #2ac792;
+  }
+  .sm button:hover{
+    color: #2ac792;
+  }
+  
+  .contact-btn{
+    background-color: transparent;
+    display: inline-block;
+    padding: 12px 50px;
+    color: white;
+    border: 1.5px solid #d400ff;
+    border-radius: 6px;
+    margin-top: 16px;
+    transition: .3s linear;
+  }
+  
+  .contact-btn:hover{
+    background: #c600ee;
+    color: #f2f2f2;
+  }
+  
+  .card-footerr{
+    background: #f4f4f4;
+    padding: 60px 10px;
+  }
+  
+  .numbers{
+    display: flex;
+    align-items: center;
+  }
+  
+  .item{
+    flex: 1;
+    text-transform: uppercase;
+    font-size: 13px;
+    color: #9e23c4;
+  }
+  
+  .item span{
+    display: block;
+    color: #2c3a47;
+    font-size: 30px;
+  }
+  
+  .border{
+    width: 1px;
+    height: 160px;
+    background: white;
+    /* background: #bbb; */
+  }
+  .ozellik div{
+      font-size: 20px;
+      margin: 5px;
+  }

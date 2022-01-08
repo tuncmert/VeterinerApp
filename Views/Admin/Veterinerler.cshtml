@@ -1,0 +1,190 @@
+@{
+    Layout = "../Shared/_AdminLayout.cshtml";
+}
+@model List<Veterinerapp.Models.DB.Veteriner>
+
+
+<div class="row justify-content-center">
+    <button class="btn btn-info" id="btnVeterinerEkle">Yeni Veteriner Ekle</button>
+</div>
+<div class="card card-solid">
+    <div class="card-body pb-0">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+                    <div class="card bg-light d-flex flex-fill">
+                        <div class="card-header text-muted border-bottom-0">
+                            <h5>VETERİNER</h5>
+                        </div>
+                        <div class="card-body   ">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h2 class="lead" style="color: darkblue;"><b>@item.VeterinerAd @item.VeterinerSoyad</b>
+                                    </h2>
+                                    <p class="text-muted"><b>Kurum: </b> @item.Kurum.KurumAd </p>
+                                    <p class="text-muted"><b>Aktif Mi: </b>@(item.VeterinerAktifMi?"Evet":"Hayır") </p>
+                                    <ul class="ml-4 mb-4 fa-ul text-muted">
+                                        <li class="small" style="color: black;"><span class="fa-li"><i
+                                                class="fas fa-lg fa-building"></i></span>
+                                            Address: @item.Kurum.KurumSehir / @item.Kurum.KurumIlce</li>
+                                        <li class="small" style="color: black;"><span class="fa-li"><i
+                                                class="fas fa-lg fa-phone"></i></span>
+                                            Phone #: @item.VeterinerTelefon</li>
+                                    </ul>
+                                </div>
+                                <div class="col-5 text-center">
+                                    <img src='@(item.VeterinerImage==null?"/images/NoImage2.png":$"data:image/png;base64,{Convert.ToBase64String(item.VeterinerImage)}")' alt="user-avatar"
+                                    class="img-circle img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="text-right">
+                                <a href="/Admin/VeterinerIndex/@item.VeterinerId" class="btn btn-sm btn-info">
+                                    <i class="fas fa-user"></i> Detay
+                                </a>
+                                <button class="btn btn-danger btn-sm" data-veterinerid="@item.VeterinerId"
+                                onclick="btnVeterinerSil(this)">Sil</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+    <!-- /.card-body -->
+    @* <div class="card-footer">
+        <nav aria-label="Contacts Page Navigation">
+        <ul class="pagination justify-content-center m-0">
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">4</a></li>
+        <li class="page-item"><a class="page-link" href="#">5</a></li>
+        <li class="page-item"><a class="page-link" href="#">6</a></li>
+        <li class="page-item"><a class="page-link" href="#">7</a></li>
+        <li class="page-item"><a class="page-link" href="#">8</a></li>
+        </ul>
+        </nav>
+        </div> *@
+    <!-- /.card-footer -->
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="modalVeterinerEkle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Veteriner Ekle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="txbKurumAd" class="form-label">Veteriner Adı</label>
+                        <input type="text" class="form-control" id="txbAd" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="txbKurumSehir" class="form-label">Veteriner Soyad</label>
+                        <input type="text" class="form-control" id="txbSoyad">
+                    </div>
+                    <div class="mb-3">
+                        <label for="txbKurumIlce" class="form-label">Veteriner Telefon</label>
+                        <input type="phone" class="form-control" id="txbTelefon">
+                    </div>
+                    <div class="mb-3">
+                        <label for="txbKurumTelefon" class="form-label">Veteriner Kullanıcı Adı</label>
+                        <input type="text" class="form-control" id="txbKullaniciAdi">
+                    </div>
+                    <div class="mb-3">
+                        <label for="txbKurumTelefon" class="form-label">Veteriner Şifresi</label>
+                        <input type="text" class="form-control-file" id="txbSifre">
+                    </div>
+                    <div class="form-group">
+                        <label for="selectKurum">Veteriner Kurumu</label>
+                        <select id="selectKurum" class="form-control custom-select">
+                            <option selected disabled>Kurum Seçin</option>
+                            @if (ViewBag.kurumlar != null)
+                            {
+                                foreach (Veterinerapp.Models.DB.Kurum item in ViewBag.kurumlar)
+                                {
+                                    <option value="@item.KurumId">@item.KurumAd</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="aktifCheck">
+                        <label class="form-check-label" for="aktifCheck">Veteriner Aktif Mi</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" id="btnVeterinerKaydet">Kaydet</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+<script>
+    $(document).ready(function () {
+
+        $('#btnVeterinerEkle').click(function () {
+            $('#modalVeterinerEkle').modal('show');
+        });
+        $('#btnVeterinerKaydet').click(function () {
+            var veterinerAd = $('#txbAd').val();
+            var veterinerSoyad = $('#txbSoyad').val();
+            var veterinerKullaniciAdi = $('#txbKullaniciAdi').val();
+            var veterinerTelefon = $('#txbTelefon').val();
+            var veterinerSifre = $('#txbSifre').val();
+            var veterinerKurum = $('#selectKurum').val();
+            var aktifMi = $('#aktifCheck').is(':checked');
+            var obj = { VeterinerAd: veterinerAd, VeterinerSoyad: veterinerSoyad, VeterinerTelefon: veterinerTelefon, VeterinerKullaniciAdi: veterinerKullaniciAdi, VeterinerSifre: veterinerSifre, KurumId: veterinerKurum, VeterinerAktifMi: aktifMi };
+            $.ajax({
+                url: '@Url.Action("VeterinerEkleAjax","Admin")',
+                type: 'post',
+                data: JSON.stringify(obj),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8',
+                success: function (result) {
+                    if (result == 1) {
+                        swal("Tebrikler!", "Veteriner Başarıyla Eklendi", "success").then(function () {
+                            location.reload();
+                        });
+                    }
+                },
+                error: function (err) {
+                    console.error(err.statusText);
+                }
+            });
+        })
+
+    });
+    function btnVeterinerSil(elem) {
+        var veterinerId = $(elem).data("veterinerid");
+        var obj = { VeterinerId: veterinerId };
+        $.ajax({
+            url: '@Url.Action("VeterinerSilAjax","Admin")',
+            type: 'post',
+            data: JSON.stringify(obj),
+            dataType: 'json',
+            contentType: 'application/json;charset=utf-8',
+            success: function (result) {
+                if (result == 1) {
+                    swal("Tebrikler!", "Veteriner Başarıyla Silindi", "success").then(function () {
+                        location.href = "/Admin/Veterinerler"
+                    });
+                }
+            },
+            error: function (err) {
+                console.error(err.statusText);
+            }
+        });
+    };
+</script>
+}

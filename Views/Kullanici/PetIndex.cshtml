@@ -1,0 +1,286 @@
+@model Veterinerapp.Models.PetTedaviAsiModel
+
+<body class="wallpaper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="profile-card">
+                <div class="card-headerr">
+                    <div class="pic">
+                        <img style="width: 250px; height:250px;"
+                            src='@(Model.SeciliPet.Foto==null?"/images/NoImage2.png":$"data:image/png;base64,{Convert.ToBase64String(Model.SeciliPet.Foto)}")'
+                            alt="">
+                    </div>
+                    <div class="name">@Model.SeciliPet.Ad</div>
+                    <div class="desc">Tür : @Model.SeciliPet.Tur</div>
+                    <div class="desc">Cins : @Model.SeciliPet.Cins</div>
+                    <div class="desc">Kilo :@Model.SeciliPet.Kilo</div>
+                    <div class="desc">Pet TC: @Model.SeciliPet.PetTc</div>
+                    <div class="desc">Pet Dogum Tarihi: @(string.Format("{0:yyyy-MM-dd}",Model.SeciliPet.DogumTarihi))</div>
+                    <button class="contact-btn" id="btnPetGuncelle">Bilgileri Güncelle</button>
+                    <a href="/Kullanici/KullaniciIndex" class="contact-btn"><i class="fas fa-arrow-left"></i> Profile
+                        Dön</a>
+                </div>
+            </div>
+            <div class="card col-6 offset-md-4">
+                <h2 style="text-align: center; color: azure; background-color:#335F70; font-family: Serif, Garamond;">
+                    Tedavi Listesi</h2>
+                <div class="card-body" style="background-color:#FEFCFB; color:black;">
+                    <table id="tblTedaviListesi" style="text-align: center;" class="hover display cell-border">
+                        <thead>
+                            <tr>
+                                <th colspan="4">İşlemler</th>
+                            </tr>
+                            <tr>
+                                <th>Tedavi</th>
+                                <th>Tedavi Tarihi</th>
+                                <th>Veteriner</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Tedaviler)
+                            {
+                                <tr>
+                                    <td>@item.Ad</td>
+                                    <td>@string.Format("{0:dd.MM.yyyy}",item.Tarih)</td>
+                                    <td>@(item.Veteriner==null?"Veteriner Atanmadı":item.Veteriner.VeterinerAd+" "+item.Veteriner.VeterinerSoyad)</td>
+                                    <td><button class="btn btn-sm btn-info" data-tedaviid="@item.Id" onclick="btnTedaviClicked(this)" >Detay</button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card col-6 offset-md-4">
+                <h2 style="text-align: center; color: azure; background-color:#335F70; font-family: Serif, Garamond;">
+                    Aşı Listesi</h2>
+                <div class="card-body" style="background-color:#FEFCFB; color:black;">
+                    <table id="tblAsiListesi" style="text-align: center;" class="hover display cell-border">
+                        <thead>
+                            <tr>
+                                <th colspan="4">Aşılar</th>
+                            </tr>
+                            <tr>
+                                <th>Aşı</th>
+                                <th>Aşı Tarihi</th>
+                                <th>Veteriner</th>
+                                <th>#</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Asilar)
+                            {
+                                <tr>
+                                    <td>@item.Ad</td>
+                                    <td>@string.Format("{0:dd.MM.yyyy}",item.Tarih)</td>
+                                    <td>@(item.Veteriner==null?"Veteriner Atanmadı":item.Veteriner.VeterinerAd+" "+item.Veteriner.VeterinerSoyad)</td>
+                                    <td><button class="btn btn-sm btn-info" data-asiid="@item.Id" onclick="btnAsiClicked(this)">Detay</button></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="modalPetDuzenle">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pet Bilgilerimi Güncelle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="txbPetKilo" class="form-label">Kilo</label>
+                            <input type="text" class="form-control" id="txbPetKilo" value="@Model.SeciliPet.Kilo">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txbPetTur" class="form-label">Tür</label>
+                            <input type="text" class="form-control" id="txbPetTur" value="@Model.SeciliPet.Tur">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txbPetDogumTarihi" class="form-label">Doğum Tarihi</label>
+                            <input type="date" class="form-control" id="txbPetDogumTarihi"
+                                value='@(string.Format("{0:yyyy-MM-dd}",Model.SeciliPet.DogumTarihi))'>
+                        </div>
+                        <div>
+                            <span>Pet Fotoğrafı</span>
+                            <input type="file" id="file">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" style="filter:hue-rotate(80deg);" class="btn btn-info" id="btnPetKaydet">Kaydet</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="modalTedaviDetay">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tedavi Detayı</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="txbTedaviAdi" class="form-label">Tedavi Adı</label>
+                            <input disabled type="text" class="form-control" id="txbTedaviAdi" >
+                        </div>
+                        <div class="mb-3">
+                            <label for="textTedaviDetay" class="form-label">Tedavi Detay</label>
+                            <textarea disabled class="form-control" id="textTedaviDetay"></textarea> 
+                        </div>
+                        <div class="mb-3">
+                            <label for="txbTedaviVeteriner" class="form-label">Veteriner</label>
+                            <input disabled type="text" class="form-control" id="txbTedaviVeteriner">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txbTedaviTarihi" class="form-label">Tedavi Tarihi</label>
+                            <input disabled type="text" class="form-control" id="txbTedaviTarihi">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="modalAsiDetay">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Aşı Detayı</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="txbAsiAdi" class="form-label">Aşı Adı</label>
+                            <input disabled type="text" class="form-control" id="txbAsiAdi">
+                        </div>
+                        <div class="mb-3">
+                            <label for="textAsiDetay" class="form-label">Aşı Detayı</label>
+                            <textarea disabled class="form-control" id="textAsiDetay"></textarea> 
+                        </div>
+                        <div class="mb-3">
+                            <label for="txbAsiVeteriner" class="form-label">Veteriner</label>
+                            <input disabled type="text" class="form-control" id="txbAsiVeteriner">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txbAsiTarih" class="form-label">Aşı Tarihi</label>
+                            <input disabled type="text" class="form-control" id="txbAsiTarih">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Styles{
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+<link rel="stylesheet" href="~/css/tasarim.css" />
+<link rel="stylesheet" href="~/css/PetIndex.css" />
+}
+@section Scripts{
+<script>
+    $(document).ready(function () {
+        $('#btnPetGuncelle').click(function () {
+            $('#modalPetDuzenle').modal('show');
+        });
+        $('#tblTedaviListesi').DataTable();
+        $('#tblAsiListesi').DataTable();
+        $('#btnPetKaydet').click(function () {
+            var file_data = document.getElementById('file').files[0];
+            var form_data = new FormData();
+            form_data.append('dosya', file_data);
+            form_data.append('Id', "@Model.SeciliPet.Id");
+            form_data.append('Kilo', $('#txbPetKilo').val());
+            form_data.append('Tur', $('#txbPetTur').val());
+            form_data.append('DogumTarihi', $('#txbPetDogumTarihi').val());
+            console.log(form_data);
+            $.ajax({
+                url: '@Url.Action("PetDuzenle","Kullanici")',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function (result) {
+                    console.log(result)
+                    if (result == 1) {
+                        swal("Tebrikler!", "Pet Başarıyla Güncellendi", "success").then(function () {
+                            location.reload();
+                        });
+                    }
+                },
+                error: function (err) {
+                    console.error(err.statusText);
+                }
+            });
+        });
+    });
+    function btnTedaviClicked(elem){    
+        var tedaviId = $(elem).data("tedaviid");
+        var obj = {};
+        obj.id =tedaviId;
+        $.ajax({
+            url: '@Url.Action("TedaviDetayAjax","Kullanici")',
+            type: 'post',
+            data: JSON.stringify(obj),
+            dataType: 'json',
+            contentType: 'application/json;charset=utf-8',
+            success: function (result) {
+                console.log(result);
+                $('#modalTedaviDetay').modal('show');
+                $('#txbTedaviAdi').val(result.ad);
+                $('#textTedaviDetay').text(result.detay);
+                $('#txbTedaviVeteriner').val('@Html.Raw(Model.SeciliPet.Veteriner==null?"Veteriner Atanmadı":Model.SeciliPet.Veteriner.VeterinerAd+" "+Model.SeciliPet.Veteriner.VeterinerSoyad)');
+                $('#txbTedaviTarihi').val(new Date(result.tarih).toLocaleDateString());
+            },
+            error: function (err) {
+                console.error(err.statusText);
+            }
+        });
+    }
+    function btnAsiClicked(elem){    
+        var asiId = $(elem).data("asiid");
+        var obj = {};
+        obj.Id =asiId;
+        $.ajax({
+            url: '@Url.Action("AsiDetayAjax","Kullanici")',
+            type: 'post',
+            data: JSON.stringify(obj),
+            dataType: 'json',
+            contentType: 'application/json;charset=utf-8',
+            success: function (result) {
+                console.log(result);
+                $('#modalAsiDetay').modal('show');
+                $('#txbAsiAdi').val(result.ad);
+                $('#textAsiDetay').text(result.detay);
+                $('#txbAsiVeteriner').val('@Html.Raw(Model.SeciliPet.Veteriner==null?"Veteriner Atanmadı":Model.SeciliPet.Veteriner.VeterinerAd+" "+Model.SeciliPet.Veteriner.VeterinerSoyad)');
+                $('#txbAsiTarih').val(new Date(result.tarih).toLocaleDateString());
+            },
+            error: function (err) {
+                console.error(err.statusText);
+            }
+        });
+    }
+</script>
+}

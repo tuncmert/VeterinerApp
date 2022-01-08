@@ -1,0 +1,131 @@
+@model Veterinerapp.Models.DB.Pet
+
+<body style="background-image: linear-gradient(rgba(38, 0, 88, 1),transparent),url(https://images.wallpaperscraft.com/image/single/cat_roof_city_130750_3840x2160.jpg);">
+  <div class="profile-card">
+    <div class="card-header">
+      <div class="pic">
+        <img style="filter:hue-rotate(55deg);" 
+          src="https://cdn-icons-png.flaticon.com/512/829/829216.png"
+          alt="">
+      </div>
+      <div class="name">Robocob</div>
+      <div class="desc">Hekimi: Fatih Baytar</div>
+      <div class="sm" style="color: white;">
+          <tr>
+        <td>Sahibi: Mert Tunç</td>
+        <td>Yaş: 0.9</td>
+        <td>Kilo: 8</td>
+        <td>Irk: null</td>
+        <td>Cinsiyet: Erkek</td>
+        </tr>
+      </div>
+      <a href="#" class="contact-btn">Kaydet</a>
+    </div>
+    <div class="card-footer">
+      <div class="numbers">
+        <div class="item">
+          <span>8</span>
+          Kilo
+        </div>
+        <div class="border"></div>
+        <div class="item">
+          <span>0.9</span>
+          Yaş
+        </div>
+      </div>
+    </div>
+        <div class="card-footer">
+      <div class="numbers">
+        <div class="item">
+          <span>127</span>
+          Irk
+        </div>
+        <div class="border"></div>
+        <div class="item">
+          <span>Erkek</span>
+          Cinsiyet
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+
+
+
+  @* TABLO - SON 5 İŞLEM *@
+
+
+  <div class="card" style="top: 580px; left: 150px; width: 70%; height: 315px; margin: 0px auto;">
+    <div class="card-body">
+      <table id="son5">
+        <h1 style="text-align: center;">Son Tedaviler</h1>
+        <thead>
+          <tr>
+            <th>Pet ID</th>
+            <th>Pet adı</th>
+            <th>Sahibi</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <tr>
+              <td>1</td>
+              <td>1</td>
+              <td>1</td>
+              @* <td>
+                <button class="btn btn-sm btn-primary">Detay</button>
+                <button class="btn btn-sm btn-warning">Düzenle</button>
+                <button class="btn btn-sm btn-danger" data-petid="1" onclick="btnSilHandler(this)">Sil</button>
+              </td> 
+              </tr>*@
+            
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+
+@section Styles{
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+<link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="~/css/tasarim.css" />
+<link rel="stylesheet" href="~/css/PetDetay.css" />
+}
+@section Scripts{
+  <script>
+        function btnSilHandler(elem) {
+            //var petId = $(elem).data("petid");
+            var obj = { PetId: petId };
+            $.ajax({
+                url: '@Url.Action("petSilAjax","Admin")',
+                type: 'post',
+                data: JSON.stringify(obj),
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8',
+                success: function (result) {
+                    if (result == 1) {
+                        swal("Tebrikler!", "Pet Başarıyla Silindi", "success").then(function () {
+                            location.href = "/Veteriner/VeterinerIndex"
+                        });
+                    }
+                },
+                error: function (err) {
+                    console.error(err.statusText);
+                }
+            });
+        });
+</script>
+<script>
+  $(document).ready(function () {
+    $('#son5').DataTable({
+      pageLength: 5,
+      lengthMenu: [[5, 10, 25], [5, 10, 25]],
+      "language": {
+        "url": "//cdn.datatables.net/plug-ins/1.10.12/i18n/Turkish.json",
+      }
+    });
+  })
+</script>
+<script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+}

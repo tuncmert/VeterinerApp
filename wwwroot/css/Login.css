@@ -1,0 +1,281 @@
+*{
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+.wawe{
+	position: fixed;
+	height: 100%;
+	left: 0;
+	bottom: 0;
+	z-index: -1;
+}
+.container{
+	width: 100vw;
+	height: 100vh;
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	grid-gap: 6rem;
+	padding: 0 0rem;
+}
+.img{
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+.img img{
+	width: 700px;
+	position: relative;
+	left: -40px;
+}
+.login-container{
+	display: flex;
+	align-items: center;
+	text-align: center;
+}
+form{
+	width: 360px;
+}
+.avatar{
+	width: 175px;
+}
+form h2{
+	font-size: 2.9rem;
+	text-transform: uppercase;
+	margin: 15px 0;
+	color: #38d39f;
+}
+.input-div{
+	position: relative;
+	display: grid;
+	grid-template-columns: 7% 93%;
+	margin: 25px 0;
+	padding: 5px 0;
+	border-bottom: 2px solid rgb(190, 190, 190);
+}
+.input-div:after, .input-div:before{
+	content: '';
+	position: absolute;
+	bottom: -2px;
+	width: 0;
+	height: 2px;
+	background-color: #38d39f;
+	transition: .3s;
+}
+.input-div:after{
+	right: 50%;
+}
+.input-div:before{
+	left: 50%;
+}
+.input-div.focus .i i{
+	color: #38d39f;
+}
+.input-div.focus div h5{
+	top: -5px;
+	font-size: 15px;
+}
+.input-div.focus:after, .input-div.focus:before{
+	width: 50%;
+}
+.input-div.one{
+	margin-top: 0;
+}
+.input-div.two{
+	margin-bottom: 4px;
+}
+.i{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.i i{
+	color: #d9d9d9;
+	transition: .3s;
+}
+.input-div > div{
+	position: relative;
+	height: 45px;
+}
+.input-div > div h5{
+	position: absolute;
+	left: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: #999;
+	font-size: 18px;
+	transform: .3s;
+}
+.input{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	border: none;
+	outline: none;
+	background: none;
+	padding: 0.5rem 0.7rem;
+	font-size: 1.2rem;
+	font-family: 'Poppins', sans-serif;
+	color: #555;
+}
+a{
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	font-size: 0.9rem;
+	transition: 0.3s;
+	color: #38d39f !important;
+}
+a:hover{
+	color: #12a171 !important;
+}
+nav ul li a::after{
+	background: #9900ff;
+}
+.btn{
+	display: block;
+	width: 100%;
+	height: 50px;
+	border-radius: 25px;
+	margin: 1rem 0;
+	font-size: 1.2rem;
+	outline: none;
+	border: none;
+	background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+	cursor: pointer;
+	color: white;
+	text-transform: uppercase;
+	font-family: 'Poppins', sans-serif;
+	background-size: 200%;
+	transition: .5s;
+}
+.btn:hover{
+	background-position: right;
+}
+.btn2{
+	display: block;
+	width: 100%;
+	height: 50px;
+	border-radius: 25px;
+	margin: 1rem 0;
+	font-size: 1.2rem;
+	outline: none;
+	border: none;
+	background-image: linear-gradient(to right, #9900ff, #a738d3, #6c00aa);
+	cursor: pointer;
+	color: white;
+	text-transform: uppercase;
+	font-family: 'Poppins', sans-serif;
+	background-size: 200%;
+	transition: .5s;
+}
+.btn2:hover{
+	background-position: right;
+}
+.btn3{
+	display: block;
+	width: 100%;
+	height: 50px;
+	border-radius: 25px;
+	margin: 1rem 0;
+	font-size: 1.2rem;
+	outline: none;
+	border: none;
+	background-image: linear-gradient(to right, #3a3a3a, #000000, #4e4e4e);
+	cursor: pointer;
+	color: white;
+	text-transform: uppercase;
+	font-family: 'Poppins', sans-serif;
+	background-size: 200%;
+	transition: .5s;
+}
+.btn3:hover{
+	background-position: right;
+}
+.btn-l2{
+	display: block;
+	width: 100%;
+	height: 50px;
+	border-radius: 25px;
+	margin: 1rem 0;
+	font-size: 1.2rem;
+	outline: none;
+	border: none;
+	background-image: linear-gradient(to right, #9900ff, #a738d3, #6c00aa);
+	cursor: pointer;
+	color: white;
+	text-transform: uppercase;
+	font-family: 'Poppins', sans-serif;
+	background-size: 200%;
+	transition: .5s;
+}
+.btn-l2:hover{
+	background-position: right;
+}
+.btn2-l2{
+	display: block;
+	width: 100%;
+	height: 50px;
+	border-radius: 25px;
+	margin: 1rem 0;
+	font-size: 1.2rem;
+	outline: none;
+	border: none;
+	background-image: linear-gradient(to right, #32be8f, #38d39f, #26a077);
+	cursor: pointer;
+	color: white;
+	text-transform: uppercase;
+	font-family: 'Poppins', sans-serif;
+	background-size: 200%;
+	transition: .5s;
+}
+.btn2-l2:hover{
+	background-position: right;
+}
+
+
+
+
+@media screen and (max-width: 1050px){
+	.container{
+		grid-gap: 5rem;
+	}
+}
+@media screen and (max-width: 1000px){
+	form{
+		width: 290px;
+	}
+	form h2{
+		font-size: 2.4rem;
+		margin: 8px 0;
+	}
+	.img img{
+		width: 400px;
+	}
+}
+@media screen and (max-width: 900px){
+	.img{
+		display: none;
+	}
+	.container{
+		grid-template-columns: 1fr;
+	}
+	.wawe{
+		display: none;
+	}
+	.login-container{
+		justify-content: center;
+	}
+}
+.ust{
+	z-index: 2;
+}
+.l1{
+	position: relative;
+	margin-top: 115px;
+}
+.l2{
+	position: absolute;
+}

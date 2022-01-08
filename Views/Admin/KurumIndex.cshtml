@@ -1,0 +1,280 @@
+@{
+  Layout = "../Shared/_AdminLayout.cshtml";
+}
+@model KurumVeterinerListesiModel
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <!-- Profile Image -->
+      <div class="card card-primary card-outline">
+        <div class="card-body box-profile">
+          <div class="text-center">
+            <img class="profile-user-img img-fluid img-circle" src="~/dist/img/user4-128x128.jpg"
+              alt="User profile picture">
+          </div>
+          <h3 class="profile-username text-center">@Model.SeciliKurum.KurumAd</h3>
+          <p class="text-muted text-center">Veteriner Kliniği</p>
+          <ul class="list-group list-group-unbordered mb-3">
+            <li class="list-group-item">
+              <b>Veteriner Sayısı</b>
+              <a class="float-right">@Model.TumVeterinerler.Count()</a>
+            </li>
+            <li class="list-group-item">
+              <b>Pet Sayısı</b>
+              @{
+                int toplam = 0;
+                foreach (var item in Model.TumVeterinerler)
+                {
+                  toplam += item.Pets.Count();
+                }
+              }
+              <a class="float-right">@toplam</a>
+            </li>
+          </ul>
+          <a href="#" class="btn btn-info btn-block" id="btnKurumDuzenle"><b>Kurumu Düzenle</b></a>
+          <button class="btn btn-danger btn-block" id="btnKurumSil"><b>Kurumu Sil</b></button>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">Kurum Bilgisi</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <strong><i class="fas fa-phone-alt"></i> İletişim</strong>
+          <p class="text-muted">
+            @Model.SeciliKurum.KurumTelefon
+          </p>
+          <hr>
+          <strong><i class="fas fa-map-marker-alt mr-1"></i> Lokasyon</strong>
+          <p class="text-muted">@Model.SeciliKurum.KurumSehir, @Model.SeciliKurum.KurumIlce</p>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+    <div class="card col-8">
+      <div class="card-header">
+        <h3 style="text-align: center;">@Model.SeciliKurum.KurumAd Veteriner Listesi</h3>
+        <button type="button" class="btn btn-info float-right" id="btnVeterinerEkle"><i class="fas fa-user-plus"></i>
+          Veteriner Ekle</button>
+      </div>
+      <div class="card-body" style="background-color:#FEFCFB; color:black;">
+        <table id="tblVeterinerListesi" style="text-align: center;" class="hover display cell-border">
+          <thead>
+            <tr>
+              <th colspan="9">Veterinerler</th>
+            </tr>
+            <tr>
+              <th>Id</th>
+              <th>Ad</th>
+              <th>Soyad</th>
+              <th>Telefon</th>
+              <th>Aktif Mi</th>
+              <th>Kullanıcı Adı</th>
+              <th>Şifre</th>
+              <th>Pet Sayısı</th>
+              <th>#</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var item in Model.TumVeterinerler)
+            {
+              <tr>
+                <td>@item.VeterinerId</td>
+                <td>@item.VeterinerAd</td>
+                <td>@item.VeterinerSoyad</td>
+                <td>@item.VeterinerTelefon</td>
+                <td>@(item.VeterinerAktifMi?"Evet":"Hayır")</td>
+                <td>@item.VeterinerKullaniciAdi</td>
+                <td>@item.VeterinerSifre</td>
+                <td>yapılacak</td>
+                <td>
+                  <a href="/Admin/VeterinerIndex/@item.VeterinerId" class="btn btn-sm btn-info"><i
+                    class="fas fa-info-circle"></i>
+                    Detay</a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="modalVeterinerEkle">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Veteriner Ekle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="txbKurumAd" class="form-label">Veteriner Adı</label>
+            <input type="text" class="form-control" id="txbAd" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="txbKurumSehir" class="form-label">Veteriner Soyadı</label>
+            <input type="text" class="form-control" id="txbSoyad">
+          </div>
+          <div class="mb-3">
+            <label for="txbKurumIlce" class="form-label">Veteriner Telefon</label>
+            <input type="phone" class="form-control" id="txbTelefon">
+          </div>
+          <div class="mb-3">
+            <label for="txbKurumTelefon" class="form-label">Veteriner Kullanıcı Adı</label>
+            <input type="text" class="form-control" id="txbKullaniciAdi">
+          </div>
+          <div class="mb-3">
+            <label for="txbKurumTelefon" class="form-label">Veteriner Şifresi</label>
+            <input type="text" class="form-control" id="txbSifre">
+          </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="aktifCheck">
+            <label class="form-check-label" for="aktifCheck">Veteriner Aktif Mi</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" id="btnVeterinerKaydet">Kaydet</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="modalKurumDuzenle">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Kurum Düzenle</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="txbKurumAd" class="form-label">Kurum Adı</label>
+            <input type="text" class="form-control" id="txbKurumAd" value="@Model.SeciliKurum.KurumAd">
+          </div>
+          <div class="mb-3">
+            <label for="txbKurumSehir" class="form-label">Şehir</label>
+            <input type="text" class="form-control" id="txbKurumSehir" value="@Model.SeciliKurum.KurumSehir">
+          </div>
+          <div class="mb-3">
+            <label for="txbKurumIlce" class="form-label">İlçe</label>
+            <input type="text" class="form-control" id="txbKurumIlce" value="@Model.SeciliKurum.KurumIlce">
+          </div>
+          <div class="mb-3">
+            <label for="txbKurumTelefon" class="form-label">Telefon</label>
+            <input type="phone" class="form-control" id="txbKurumTelefon" value="@Model.SeciliKurum.KurumTelefon">
+          </div>
+          @* <div class="mb-3">
+            <label for="txbKurumTelefon" class="form-label">Kurum Logosu</label>
+            <input type="file" class="form-control-file" id="kurumLogo">
+          </div> *@
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" id="btnKurumKaydet">Kaydet</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+      </div>
+    </div>
+  </div>
+</div>
+@section Scripts
+{
+<script>
+  $(document).ready(function () {
+    $('#tblVeterinerListesi').DataTable();
+    $('#btnVeterinerEkle').click(function () {
+      $('#modalVeterinerEkle').modal('show');
+    });
+    $('#btnKurumDuzenle').click(function () {
+      $('#modalKurumDuzenle').modal('show');
+    });
+    $('#btnVeterinerKaydet').click(function () {
+      var veterinerAd = $('#txbAd').val();
+      var veterinerSoyad = $('#txbSoyad').val();
+      var veterinerKullaniciAdi = $('#txbKullaniciAdi').val();
+      var veterinerTelefon = $('#txbTelefon').val();
+      var veterinerSifre = $('#txbSifre').val();
+      var veterinerKurum = "@Model.SeciliKurum.KurumId";
+      var aktifMi = $('#aktifCheck').is(':checked');
+      console.log(aktifMi);
+      var obj = { VeterinerAd: veterinerAd, VeterinerSoyad: veterinerSoyad, VeterinerTelefon: veterinerTelefon, VeterinerKullaniciAdi: veterinerKullaniciAdi, VeterinerSifre: veterinerSifre, KurumId: veterinerKurum, VeterinerAktifMi: aktifMi };
+      $.ajax({
+        url: '@Url.Action("VeterinerEkleAjax","Admin")',
+        type: 'post',
+        data: JSON.stringify(obj),
+        dataType: 'json',
+        contentType: 'application/json;charset=utf-8',
+        success: function (result) {
+          if (result == 1) {
+            swal("Tebrikler!", "Veteriner Başarıyla Eklendi", "success").then(function () {
+              location.reload();
+            });
+          }
+        },
+        error: function (err) {
+          console.error(err.statusText);
+        }
+      });
+    });
+    $('#btnKurumSil').click(function () {
+      var kurumId = "@Model.SeciliKurum.KurumId";
+      var obj = {};
+      obj.KurumId = kurumId;
+      $.ajax({
+        url: '@Url.Action("KurumSilAjax","Admin")',
+        type: 'post',
+        data: JSON.stringify(obj),
+        dataType: 'json',
+        contentType: 'application/json;charset=utf-8',
+        success: function (result) {
+          if (result == 1) {
+            swal("Tebrikler!", "Kurum Başarıyla Silindi", "success").then(function () {
+              location.href = "/Admin/Kurumlar"
+            });
+          }
+        },
+        error: function (err) {
+          console.error(err.statusText);
+        }
+      });
+    });
+    $('#btnKurumKaydet').click(function () {
+      var kurumId = "@Model.SeciliKurum.KurumId";
+      var kurumAd = $('#txbKurumAd').val();
+      var kurumSehir = $('#txbKurumSehir').val();
+      var kurumIlce = $('#txbKurumIlce').val();
+      var kurumTelefon = $('#txbKurumTelefon').val();
+      @* var kurumLogo= $('#KurumLogo').val(); *@
+      var obj = { KurumAd: kurumAd, KurumTelefon: kurumTelefon, KurumSehir: kurumSehir, KurumIlce: kurumIlce, KurumId: kurumId };
+      $.ajax({
+        url: '@Url.Action("KurumDuzenleAjax","Admin")',
+        type: 'post',
+        data: JSON.stringify(obj),
+        dataType: 'json',
+        contentType: 'application/json;charset=utf-8',
+        success: function (result) {
+          if (result == 1) {
+            swal("Tebrikler!", "Kurum Başarıyla Düzenlendi", "success").then(function () {
+              location.reload();
+            });
+          }
+        },
+        error: function (err) {
+          console.error(err.statusText);
+        }
+      });
+    });
+  });
+
+</script>
+}

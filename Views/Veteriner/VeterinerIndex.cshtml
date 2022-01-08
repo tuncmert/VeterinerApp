@@ -1,0 +1,382 @@
+@model Veterinerapp.Models.VeterinerModel
+
+<body class="wallpaper">
+
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="profile-card">
+        <div class="card-headerr">
+          <div class="pic">
+            <img
+              src="https://static-cdn.jtvnw.net/jtv_user_pictures/f3382d86-ba1d-43df-8f8c-1644b11700b5-profile_image-300x300.png"
+              alt="">
+          </div>
+          <div class="name">@Model?.SeciliVeteriner.VeterinerAd @Model?.SeciliVeteriner.VeterinerSoyad</div>
+          <div class="desc">Veteriner Hekimi</div>
+          <p class="desc">Kurum: <span style="color: red;">@Model.SeciliVeteriner.Kurum.KurumAd</span></p>
+          <div class="sm">
+            <a href="#" class="fab fa-facebook-f"></a>
+            <a href="#" class="fab fa-twitter"></a>
+            <a href="#" class="fab fa-github"></a>
+            <a href="#" class="fab fa-youtube"></a>
+          </div>
+          <button class="contact-btn" id="btnKullaniciEkle">Yeni Kullanıcı +</button>
+        </div>
+        <div class="card-footerr">
+          <div class="numbers">
+            <div class="item">
+              <span>120</span>
+              Posts
+            </div>
+            <div class="border"></div>
+            <div class="item">
+              <span>@ViewBag.petSayisi</span>
+              PET
+            </div>
+            <div class="border"></div>
+            <div class="item">
+              <span>120K</span>
+              Followers
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-8 offset-md-4">
+        <h2 style="text-align: center; color: azure; background-color:#41007e; font-family: 'Bungee Shade', cursive;">P
+          E T L E R</h2>
+        <div class="card-body pb-0">
+          <div class="row">
+            @if (Model != null)
+            {
+              @foreach (var item in Model.SeciliVeteriner.Pets)
+              {
+                <div class="col-12 col-sm-3 col-md-3 d-flex align-items-stretch flex-column" style="width: 50%;">
+                  <div class="card bg-light d-flex flex-fill" style="width: 90%;">
+                    <div class="card-header" style="background-color: #7000da; padding-top: 7px; padding-bottom: 0px;">
+                      @* <h5 style="color: azure; text-align:center;"><i class="fas fa-dog"></i> @item.Ad <i class="fas
+                        fa-cat"></i></h5> *@
+                      <h5 style="color: azure; text-align:center; font-size: 40px;"> @item.Ad </h5>
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-4">
+
+                          <ul class="ml-4 mb-4 fa-ul text-muted">
+                            @* <li class="medium" style="color: black;"><span class="fa-li"><i class="fas
+                              fa-user"></i></span>
+                              Veteriner Bilgisi:@(item.Veteriner==null?"Veteriner Atanmadı":item.Veteriner.VeterinerAd+"
+                              "+item.Veteriner.VeterinerSoyad )</li> *@
+                          </ul>
+                        </div>
+                        <div class="text-center" style="margin: 10px;">
+                          <img
+                        src='@(item.Foto==null?"/images/NoImage2.png":$"data:image/png;base64,{Convert.ToBase64String(item.Foto)}")'
+                        alt="user-avatar" class="img-circle img-fluid">
+                          <p class="text-muted"><b>Cins: </b> @item.Cins</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <div class="text-right">
+                        <a href="/Veteriner/PetIndex/@item.Id" class="btn btn-primary btn-sm"
+                      style="filter:hue-rotate(47deg);">
+                          <i class="fas fa-paw"></i> Detay
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            }
+          </div>
+        </div>
+        <div class="card" style="position: realitive; width: 100%; margin: 0px auto; ph-0">
+          <div class="card-body">
+            <table id="son5" style="text-align: center;">
+              <h1 style="text-align: center;">Pet Sahipleri</h1>
+              <thead>
+                <tr>
+                  <th>Ad</th>
+                  <th>Soyad</th>
+                  <th>İletişim</th>
+                  <th>işlem</th>
+                </tr>
+              </thead>
+              <tbody>
+                @if (Model != null)
+                {
+                  foreach (var item in Model.TumSahipler)
+                  {
+                    <tr>
+                      <td>@item.SahipAd</td>
+                      <td>@item.SahipSoyad</td>
+                      <td>@item.SahipTelefon</td>
+                      <td>
+                        <button class="btn btn-sm btn-primary" data-sahipid="@item.Id" onclick="btnYeniPet(this)">Yeni Pet
+                          +</button>
+                        <button class="btn btn-sm btn-danger" data-petsahipid="@item.Id"
+                      onclick="btnSilHandler(this)">Sil</button>
+                      </td>
+                    </tr>
+                  }
+                }
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="modalKullaniciEkle">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Kullanıcı Ekle</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="txbKurumAd" class="form-label">Kullanıcı Adı</label>
+                <input type="text" class="form-control" id="txbAd" aria-describedby="emailHelp">
+              </div>
+              <div class="mb-3">
+                <label for="txbKurumSehir" class="form-label">Kullanıcı Soyad</label>
+                <input type="text" class="form-control" id="txbSoyad">
+              </div>
+              <div class="mb-3">
+                <label for="txbKurumIlce" class="form-label">Kullanıcı Telefon</label>
+                <input type="phone" class="form-control" id="txbTelefon">
+              </div>
+              <div class="mb-3">
+                <label for="txbKurumTelefon" class="form-label">Kullanıcı Adı</label>
+                <input type="text" class="form-control" id="txbKullaniciAdi">
+              </div>
+              <div class="mb-3">
+                <label for="txbSifre" class="form-label">Kullanıcı Şifresi</label>
+                <input type="text" class="form-control" id="txbSifre">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn" style="background-color: #2ac792; color: white;"
+              id="btnKullaniciKaydet">Kaydet</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="modal" tabindex="-1" role="dialog" id="modalPetEkle">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Pet Ekle</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="txbKurumAd" class="form-label">Sahip Id</label>
+                <input disabled type="text" class="form-control" id="txbsahipid">
+              </div>
+              <div class="mb-3">
+                <label for="txbKurumSehir" class="form-label">Petin adı</label>
+                <input type="text" class="form-control" id="txbPetAd">
+              </div>
+              <div class="mb-3">
+                <label for="txbKurumIlce" class="form-label">Petin kilosu</label>
+                <input type="phone" class="form-control" id="txbKilo">
+              </div>
+              <div class="mb-3">
+                <label for="txbKurumTelefon" class="form-label">Petin yaşı</label>
+                <input type="text" class="form-control" id="txbYas">
+              </div>
+              <div class="mb-3">
+                <label for="txbSifre" class="form-label">Petin türü</label>
+                <input type="text" class="form-control" id="txbTur">
+              </div>
+              <div class="mb-3">
+                <label for="txbSifre" class="form-label">Petin cinsi</label>
+                <input type="text" class="form-control" id="txbCins">
+              </div>
+              <div class="mb-3">
+                <label for="txbSifre" class="form-label">Petin Cinsiyeti</label>
+                <input type="text" class="form-control" id="txbCinsiyet">
+              </div>
+              <div class="mb-3">
+                <label for="txbSifre" class="form-label">Petin Tc'si</label>
+                <input type="text" class="form-control" id="txbTc">
+              </div>
+              <div class="mb-3">
+                <label for="txbSifre" class="form-label">Petin Doğum Tarihi</label>
+                <input type="date" class="form-control" id="txbDogumTarihi">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn" style="background-color: #2ac792; color: white;"
+              id="btnPetKaydet">Kaydet</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</body>
+
+@section Styles{
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="~/css/tasarim.css" />
+<link rel="stylesheet" href="~/css/Veteriner.css" />
+}
+
+@section Scripts{
+  <script>
+    $(document).ready(function () {
+      $('#son5').DataTable({
+        pageLength: 5,
+        lengthMenu: [[5, 10, 25], [5, 10, 25]],
+        "language": {
+          "url": "//cdn.datatables.net/plug-ins/1.10.12/i18n/Turkish.json",
+        }
+      });
+      $('#btnKullaniciEkle').click(function () {
+        $('#modalKullaniciEkle').modal('show');
+      });
+      $('#btnKullaniciKaydet').click(function () {
+        var sahipAd = $('#txbAd').val();
+        var sahipSoyad = $('#txbSoyad').val();
+        var kullaniciAdi = $('#txbKullaniciAdi').val();
+        var sahipTelefon = $('#txbTelefon').val();
+        var sahipSifre = $('#txbSifre').val();
+        @* var KullaniciKurum = $('#selectKurum').val();
+            var aktifMi = $('#aktifCheck').is(':checked'); *@
+              var obj = { SahipAd: sahipAd, SahipSoyad: sahipSoyad, SahipTelefon: sahipTelefon, KullaniciAdi: kullaniciAdi, SahipSifre: sahipSifre };
+        console.log("dsada");
+        $.ajax({
+          url: '@Url.Action("KullaniciEkleAjax","Veteriner")',
+          type: 'post',
+          data: JSON.stringify(obj),
+          dataType: 'json',
+          contentType: 'application/json;charset=utf-8',
+          success: function (result) {
+            if (result == 1) {
+              swal("Tebrikler!", "Veteriner Başarıyla Eklendi", "success").then(function () {
+                location.reload();
+              });
+            }
+          },
+          error: function (err) {
+            console.error(err.statusText);
+          }
+        });
+      });
+
+      $("#btnPetKaydet").click(function () {
+        var Sahipid = $('#txbsahipid').val();
+        var PetAd = $('#txbPetAd').val();
+        var PetKilo = $('#txbKilo').val();
+        var PetYas = $('#txbYas').val();
+        var PetTur = $('#txbTur').val();
+        var PetCins = $('#txbCins').val();
+        var PetCinsiyet = $('#txbCinsiyet').val();
+        var petTc = $('#txbTc').val();
+        var PetDogumTarihi = $('#txbDogumTarihi').val();
+        var veterinerId = '@Model.SeciliVeteriner.VeterinerId'
+        var obj = { petsahipId: Sahipid, Ad: PetAd, Kilo: PetKilo, Yas: PetYas, Tur: PetTur, Cins: PetCins, Cinsiyet: PetCinsiyet, PetTc: petTc, DogumTarihi: PetDogumTarihi, VeterinerId: veterinerId }
+        $.ajax({
+          url: '@Url.Action("PetEkleAjax","Veteriner")',
+          type: 'post',
+          data: JSON.stringify(obj),
+          dataType: 'json',
+          contentType: 'application/json;charset=utf-8',
+          success: function (result) {
+            if (result == 1) {
+              swal("Tebrikler!", "Pet Başarıyla Eklendi", "success").then(function () {
+                location.reload();
+              });
+            }
+          },
+          error: function (err) {
+            console.error(err.statusText);
+          }
+        });
+      })
+    });
+    function btnYeniPet(elem) {
+      var Sahipid = $(elem).data("sahipid");
+      var obj = {};
+      obj.id = Sahipid
+      $.ajax({
+        url: '@Url.Action("PetSahipAjax","Veteriner")',
+        type: 'post',
+        data: JSON.stringify(obj),
+        dataType: 'json',
+        contentType: 'application/json;charset=utf-8',
+        success: function (result) {
+          $('#modalPetEkle').modal('show');
+          $('#txbsahipid').val(result.id);
+        },
+        error: function (err) {
+          console.error(err.statusText);
+        }
+      });
+    }
+    function btnSilHandler(elem) {
+      var petsahipId = $(elem).data("petsahipid");
+      var obj = { Id: petsahipId };
+      $.ajax({
+        url: '@Url.Action("PetSahipSilAjax","Veteriner")',
+        type: 'post',
+        data: JSON.stringify(obj),
+        dataType: 'json',
+        contentType: 'application/json;charset=utf-8',
+        success: function (result) {
+          if (result == 1) {
+            swal("Tebrikler!", "Kullanıcı Başarıyla Silindi", "success").then(function () {
+              location.href = "/Veteriner/VeterinerIndex"
+            });
+          }
+        },
+        error: function (err) {
+          console.error(err.statusText);
+        }
+      });
+    }
+    function btnSiandler(elem) {
+      var petId = $(elem).data("petid");
+      var obj = { Id: petId };
+      $.ajax({
+        url: '@Url.Action("PetSilAjax","Veteriner")',
+        type: 'post',
+        data: JSON.stringify(obj),
+        dataType: 'json',
+        contentType: 'application/json;charset=utf-8',
+        success: function (result) {
+          if (result == 1) {
+            swal("Tebrikler!", "Kullanıcı Başarıyla Silindi", "success").then(function () {
+              location.href = "/Veteriner/VeterinerIndex"
+            });
+          }
+        },
+        error: function (err) {
+          console.error(err.statusText);
+        }
+      });
+    }
+  </script>
+}

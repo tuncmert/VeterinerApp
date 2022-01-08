@@ -1,0 +1,142 @@
+@{
+    Layout = "../Shared/_AdminLayout.cshtml";
+}
+@model List<Veterinerapp.Models.DB.Kurum>
+<div class="card col-8 offset-md-2">
+    <div class="card-header">
+        <h3 style="text-align: center;">Kurumlar Listesi</h3>
+        <button type="button" class="btn btn-info float-right" id="btnKurumEkle"><i class="fas fa-plus"></i> Kurum
+            Ekle</button>
+    </div>
+    <div class="card-body" style="background-color:#FEFCFB; color:black;">
+        <table id="tblKurumListesi" style="text-align: center;" class="hover display cell-border">
+            <thead>
+                <tr>
+                    <th colspan="4">Kurumlar</th>
+                </tr>
+                <tr>
+                    <th>Kurum Adı</th>
+                    <th>Lokasyon</th>
+                    <th>İletişim</th>
+                    <th>#</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.KurumAd</td>
+                        <td>@item.KurumSehir/@item.KurumIlce</td>
+                        <td>@item.KurumTelefon</td>
+                        <td>
+                            <a href="/Admin/KurumIndex/@item.KurumId" class="btn btn-sm btn-info"><i
+                                class="fas fa-info-circle"></i> Detay</a>
+                            <button class="btn btn-sm btn-danger" data-kurumid="@item.KurumId" onclick="btnKurumSil(this)"><i class="fas fa-trash-alt"></i> Sil</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" id="modalKurumEkle">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Kurum Ekle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" >
+                <form>
+                    <div class="mb-3">
+                        <label for="txbKurumAd" class="form-label">Kurum Adı</label>
+                        <input type="text" class="form-control" id="txbKurumAd" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="txbKurumSehir" class="form-label">Şehir</label>
+                        <input type="text" class="form-control" id="txbKurumSehir">
+                    </div>
+                    <div class="mb-3">
+                        <label for="txbKurumIlce" class="form-label">İlçe</label>
+                        <input type="text" class="form-control" id="txbKurumIlce">
+                    </div>
+                    <div class="mb-3">
+                        <label for="txbKurumTelefon" class="form-label">Telefon</label>
+                        <input type="phone" class="form-control" id="txbKurumTelefon">
+                    </div>
+                    @* <div class="mb-3">
+                        <label for="txbKurumLogo" class="form-label">Kurum Logosu</label>
+                        <input type="file" class="form-control-file" id="kurumLogo">
+                    </div> *@
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" id="btnKurumKaydet">Kaydet</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+<script>
+    $(document).ready(function () {
+        $('#tblKurumListesi').DataTable();
+
+        $('#btnKurumEkle').click(function () {
+            $('#modalKurumEkle').modal('show');
+        });
+        
+        $('#btnKurumKaydet').click(function(){
+            var kurumAd= $('#txbKurumAd').val();
+            var kurumSehir= $('#txbKurumSehir').val();
+            var kurumIlce= $('#txbKurumIlce').val();
+            var kurumTelefon= $('#txbKurumTelefon').val();
+            @* var kurumLogo= $('#KurumLogo').val(); *@
+            var obj = {KurumAd:kurumAd,KurumTelefon:kurumTelefon,KurumSehir:kurumSehir,KurumIlce:kurumIlce};
+            $.ajax({
+                url:'@Url.Action("KurumEkleAjax","Admin")',
+                type:'post',
+                data:JSON.stringify(obj),
+                dataType:'json',
+                contentType:'application/json;charset=utf-8',
+                success:function(result){
+                    if(result==1){
+                        swal("Tebrikler!", "Kurum Başarıyla Eklendi", "success").then(function(){
+                            location.reload();
+                            });
+                    }
+                },
+                error:function(err){
+                    console.error(err.statusText);
+                }
+            });
+        });
+    });
+    function btnKurumSil(elem) {
+        var kurumId = $(elem).data("kurumid");
+        var obj = {};
+        obj.KurumId =kurumId;
+        $.ajax({
+            url: '@Url.Action("KurumSilAjax","Admin")',
+            type: 'post',
+            data: JSON.stringify(obj),
+            dataType : 'json',
+            contentType: 'application/json;charset=utf-8',
+            success: function(result){
+                if(result==1){
+                    swal("Tebrikler!", "Kurum Başarıyla Silindi", "success").then(function () {
+                        location.href = "/Admin/Kurumlar"
+                    });                  
+                }
+            },
+            error: function(err){
+                console.error(err.statusText);
+            }
+        });
+    }
+</script>
+}

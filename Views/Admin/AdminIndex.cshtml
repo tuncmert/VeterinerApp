@@ -1,0 +1,168 @@
+@{
+    Layout = "../Shared/_AdminLayout.cshtml";
+}
+
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Pet-Nabız Admin Paneli</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li class="breadcrumb-item active">Dashboard v1</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-lg-4 col-6">
+                <!-- small box -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>@ViewBag.kurumSayisi</h3>
+                        <p>Kurum Sayısı</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <a href='@Url.Action("Kurumlar","Admin")' class="small-box-footer">Tümünü Gör <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-4 col-6">
+                <!-- small box -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>@ViewBag.veterinerSayisi</h3>
+                        <p>Veteriner Sayısı</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <a href='@Url.Action("Veterinerler","Admin")' class="small-box-footer">Tümünü Gör <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-4 col-6">
+                <!-- small box -->
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>@ViewBag.petSayisi</h3>
+                        <p>Pet Sayısı</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-paw"></i>
+                    </div>
+                    <a href='@Url.Action("Petler","Admin")' class="small-box-footer">Tümünü Gör <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+
+            <!-- ./col -->
+        </div>
+        <!-- /.row -->
+        <!-- Main row -->
+        <!-- /.row (main row) -->
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+<div class="container-fluid">
+    <div class="col-6 offset-md-3">
+        <div class="card card-info">
+            <div class="card-header">
+                <h3 class="card-title" ><i class="fas fa-user-plus"></i> Hızlı Veteriner Ekle</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form class="form">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="txbAd">Veteriner Adı</label>
+                        <input type="text" class="form-control" id="txbAd" placeholder="Ad Girin">
+                    </div>
+                    <div class="form-group">
+                        <label for="txbSoyad">Veteriner Soyadı</label>
+                        <input type="text" class="form-control" id="txbSoyad" placeholder="Soyad Girin">
+                    </div>
+                    <div class="form-group">
+                        <label for="txbSoyad">Veteriner Telefon</label>
+                        <input type="phone" class="form-control" id="txbTelefon" placeholder="Telefon Numarası Girin">
+                    </div>                    
+                    <div class="form-group">
+                        <label for="txbKullaniciAdi">Veteriner Kullanıcı Adı</label>
+                        <input type="text" class="form-control" id="txbKullaniciAdi" placeholder="Kullanıcı Adı Girin">
+                    </div>
+                    <div class="form-group">
+                        <label for="txbSifre">Veteriner Şifresi</label>
+                        <input type="text" class="form-control" id="txbSifre" placeholder="Şifre">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="selectKurum">Veteriner Kurumu</label>
+                        <select id="selectKurum" class="form-control custom-select">
+                            <option selected disabled>Kurum Seçin</option>
+                            @if(ViewBag.kurumlar!=null){
+                                foreach (Veterinerapp.Models.DB.Kurum item in ViewBag.kurumlar)
+                                {
+                                    <option value="@item.KurumId">@item.KurumAd</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="aktifCheck">
+                        <label class="form-check-label" for="aktifCheck">Veteriner Aktif Mi</label>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <button type="button" class="btn btn-primary" id="btnVeterinerKaydet">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        $(document).ready(function(){
+            $('#btnVeterinerKaydet').click(function(){
+                var veterinerAd = $('#txbAd').val();
+                var veterinerSoyad = $('#txbSoyad').val();
+                var veterinerKullaniciAdi = $('#txbKullaniciAdi').val();
+                var veterinerTelefon = $('#txbTelefon').val();
+                var veterinerSifre = $('#txbSifre').val();
+                var veterinerKurum = $('#selectKurum').val();
+                var aktifMi = $('#aktifCheck').is(':checked');
+                var obj = {VeterinerAd :veterinerAd ,VeterinerSoyad :veterinerSoyad,VeterinerTelefon:veterinerTelefon,VeterinerKullaniciAdi:veterinerKullaniciAdi,VeterinerSifre:veterinerSifre,KurumId:veterinerKurum,VeterinerAktifMi:aktifMi};
+                $.ajax({
+                    url:'@Url.Action("VeterinerEkleAjax","Admin")',
+                    type:'post',
+                    data:JSON.stringify(obj),
+                    dataType:'json',
+                    contentType:'application/json;charset=utf-8',
+                    success:function(result){
+                        if(result==1){
+                            swal("Tebrikler!", "Veteriner Başarıyla Eklendi", "success").then(function(){
+                                location.reload();
+                            });
+                        }
+                    },
+                    error:function(err){
+                        console.error(err.statusText);
+                    }
+                });
+            });
+        });
+    </script>
+}

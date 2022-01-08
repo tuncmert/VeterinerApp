@@ -1,0 +1,14 @@
+@model Veterinerapp.Models.DB.Veteriner
+<div class="container-fluid">
+    <form action='@Url.Action("Cikis", "Veteriner")' method="post">
+        @* <button type="submit" class='@(Model==null?"d-none":"")'>Çıkış Yap</button> *@
+        
+        @* <button><a href="/Home/Login" id="btnGiris" class='@(Model!=null?"d-none": "")'>Giriş yap</a></button> *@
+    </form>
+    @* <li type="submit" class='ul-ana logo @(Model!=null?"d-none":"")'><a href="/Home/Login"></a></li> *@
+
+</div>
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/Navbar.css" />
+}

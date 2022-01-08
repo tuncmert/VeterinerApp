@@ -1,0 +1,260 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'poppins', sans-serif;
+}
+
+
+
+/* -    -   -   INDEX   -   -   - */
+.wallpaper
+{
+    width: 100%;
+    height: 90vh;
+    background-image: linear-gradient(rgba(38, 0, 88, 1),transparent),url(/resimler/CITY.jpg);
+    background-size: cover;
+    background-position: center;
+    padding: 0 8%;
+    position: relative;
+}
+.wall
+{
+    width: 100%;
+    height: 90vh;
+    background: white;
+    background-size: cover;
+    background-position: center;
+    padding: 0 8%;
+    position: relative;
+}
+.camm
+{
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1 ), rgba(255, 255, 255, 0));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 0px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+.text-box
+{
+    color: white;
+    position: relative;
+    bottom: 10%;
+}
+.text-box h1
+{
+    text-align: center;
+    font-size: 190px;
+    line-height: 160px;
+    margin-left: -10px;
+    color: transparent;
+    -webkit-text-stroke: 1px white;
+    background: url(/resimler/YAZI-ARKA.png);
+    -webkit-background-clip: text;
+    background-position: 0 0;
+    animation: back 30s linear infinite;
+}
+@keyframes back{
+    100%{
+        background-position: 1905px 0;
+    }
+}
+.bilgiler{
+    width: 100%;
+    height: 100%;
+    font-family: "Montserrat", sans-serif;
+    color: white;
+    font-size: 16px;
+    background: transparent;
+    overflow: hidden;
+}
+.container{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    cursor: default;
+}
+.cardd{
+    position: relative;
+    overflow: hidden;
+    width: 23%;
+    height: 480px;
+    padding: 15px;
+    border-radius: 20px;
+    background-image: linear-gradient(135deg, darkblue 10%, rgb(255, 0, 234) 100%);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    transform: perspective(1000px);
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    align-items: center;
+    margin: 20px;
+}
+.shoe-container{
+    height: 160px;
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.shoe{
+    height: auto;
+    max-width: 100%;
+    transform: translateZ(50px);
+    max-height: 100%;
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    
+}
+.category{
+    transform: translateZ(30px);
+    font-weight: bolder;
+    font-size: 24px;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    align-self: start;
+}
+.category .sub-head{
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.35);
+    margin-bottom: 2px;
+}
+.description{
+    transform: translateZ(25px);
+    text-align: justify;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+.bilgiler a{
+    text-decoration: none;
+    border: 0;
+    outline: 0;
+}
+.read-more{
+    text-decoration: none;
+    border: 0;
+    outline: 0;
+    height: 40px;
+    padding: 10px 25px;
+    border-radius: 50px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.35);
+    transform: translateZ(30px);
+    font-size: 16px;
+    font-weight: medium;
+}
+.read-more:hover{
+    cursor: pointer;
+}
+.bilgiler .js-tilt-glare{
+    pointer-events: none;
+}
+.content{
+    position: absolute;
+    width: 100%;
+    padding: 35px;
+    padding-top: 140px;
+    text-align: center;
+    color: white;
+    bottom: 85px;
+}
+.content h2{
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+.content p{
+    font-size: 20px;
+    line-height: 1.3em;
+}
+
+
+/*******************************/
+/********** Facts CSS **********/
+/*******************************/
+.facts {
+    position: relative;
+    width: 100%;
+    min-height: 270px;
+    margin: 35px 0;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgb(63, 63, 63, 0.7));
+
+
+    background-size: cover;
+    background-position: center;
+    padding: 0 8%;
+}
+
+.facts .facts-item {
+    display: flex;
+    flex-direction: row;
+    margin: 25px 0;
+}
+
+.facts .facts-item i {
+    margin-top: 15px;
+    font-size: 45px;
+    color: #b240ff;
+    animation: istatistik 30s infinite;
+}
+@keyframes istatistik {
+    from {color: #9900ff;}
+    to {color: #e900d5;}
+  }
+
+.facts .facts-text {
+    padding-left: 20px;
+}
+
+.facts .facts-text h3 {
+    position: relative;
+    display: inline-block;
+    color: #ffffff;
+    font-size: 60px;
+    font-weight: 700;
+}
+
+.facts .facts-text h3::after {
+    position: absolute;
+    content: "\f067";
+    top: 0px;
+    right: -25px;
+    color: #ffffff;
+    font-size: 25px;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+.facts .facts-text p {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 500;
+    margin: -15px;
+}
+
+
+
+/* ILETISIM */
+
+
+.mapouter{
+    position: relative;
+    right: 1000px;
+}
+.sosyal{
+    position: relative;
+    width: 390%;
+    right: 600px;
+	transition: .5s;
+}
+.sosyal:hover{
+    background-position: right;
+    transform: scale(1.25);
+    filter: hue-rotate(10deg);
+}

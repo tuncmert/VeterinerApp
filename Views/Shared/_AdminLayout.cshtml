@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>@ViewData["Title"]VeterinerApp</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="~/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="~/plugins/jqvmap/jqvmap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="~/dist/css/adminlte.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="~/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="~/plugins/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="~/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="~/plugins/select2/css/select2.css">
+  <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+  <style>
+    .dataTables_wrapper .dataTables_length select {
+      color: black;
+    }
+  </style>
+  @RenderSection("Styles",false)
+</head>
+
+<body class="dark-mode hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-dark navbar-dark">
+      <!-- Left navbar links -->
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="~/Admin/AdminIndex" class="nav-link">Home</a>
+        </li>
+      </ul>
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <!-- Navbar Search -->
+        <li class="nav-item">
+          <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+            <i class="fas fa-search"></i>
+          </a>
+          <div class="navbar-search-block">
+            <form class="form-inline">
+              <div class="input-group input-group-sm">
+                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                <div class="input-group-append">
+                  <button class="btn btn-navbar" type="submit">
+                    <i class="fas fa-search"></i>
+                  </button>
+                  <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </li>
+        <li class="nav-item">
+          <form action='@Url.Action("Cikis","Admin")' method="post">
+            <button type="submit" class='btn btn-danger @(Model==null?"d-none":"")'><i
+                class="fas fa-sign-out-alt"></i>Çıkış</button>
+          </form>
+        </li>
+      </ul>
+    </nav>
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="~/Admin/AdminIndex" class="brand-link">
+        <img src="~/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+          style="opacity: .8">
+        <span class="brand-text font-weight-light">Pet-Nabız</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="image">
+            <img src="~/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          </div>
+          <div class="info">
+            @await Component.InvokeAsync("Admin")
+          </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+          <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font 
+               rary -->
+            <li class="nav-item">
+              <a href='@Url.Action("AdminIndex","Admin")' class="nav-link">
+                <i class="fas fa-university"></i>
+                <p>
+                  Ana Sayfa
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href='@Url.Action("Kurumlar","Admin")' class="nav-link">
+                <i class="fas fa-university"></i>
+                <p>
+                  Kurumlar
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href='@Url.Action("Veterinerler","Admin")' class="nav-link">
+                <i class="fas fa-users"></i>
+                <p>
+                  Veterinerler
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href='@Url.Action("Petler","Admin")' class="nav-link">
+                <i class="fas fa-paw"></i>
+                <p>
+                  Petler
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href='@Url.Action("Cikis","Admin")' class="nav-link">
+                <i class="fas fa-sign-out-alt"></i>
+                <p>
+                    Çıkış Yap
+                </p>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+      </div>
+      <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      @RenderBody()
+
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+      <strong>Copyright &copy; 2021 Pet-Nabız</strong>
+      All rights reserved.
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+
+  </div>
+
+  <!-- jQuery -->
+  <script src="~/plugins/jquery/jquery.min.js"></script>
+  <script src="~/plugins/jquery-ui/jquery-ui.min.js"></script>
+  <script>
+    $.widget.bridge('uibutton', $.ui.button)
+  </script>
+  <!-- Bootstrap 4 -->
+  <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- ChartJS -->
+  <script src="~/plugins/chart.js/Chart.min.js"></script>
+  <!-- Sparkline -->
+  <script src="~/plugins/sparklines/sparkline.js"></script>
+  <!-- JQVMap -->
+  <script src="~/plugins/jqvmap/jquery.vmap.min.js"></script>
+  <script src="~/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+  <!-- jQuery Knob Chart -->
+  <script src="~/plugins/jquery-knob/jquery.knob.min.js"></script>
+  <!-- daterangepicker -->
+  <script src="~/plugins/moment/moment.min.js"></script>
+  <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="~/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+  <!-- Summernote -->
+  <script src="~/plugins/summernote/summernote-bs4.min.js"></script>
+  <!-- overlayScrollbars -->
+  <script src="~/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="~/dist/js/adminlte.js"></script>
+  <script src="~/plugins/select2/js/select2.full.min.js"></script>
+  <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  @RenderSection("Scripts",false)
+</body>
+
+</html>

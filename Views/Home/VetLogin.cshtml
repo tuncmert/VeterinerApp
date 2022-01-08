@@ -1,0 +1,47 @@
+<body class="wall">
+	<div class="l1" id="divl1">
+	<img class="wawe" src="~/resimler/LOGIN-BACK.png">
+	<div class="container">
+		<div class="img">
+			<img src="~/resimler/LOGIN-VET.png">
+		</div>
+		<div class="login-container">
+			<form asp-action="VetLogin" method="post">
+				<img class="avatar" src="~/resimler/LOGIN-AVATAR.png">
+				<h2>Veteriner</h2>
+				<div class="input-div one">
+					<div class="i">
+						<i class="fas fa-user"></i>
+					</div>
+					<div>
+						<input name="VeterinerKullaniciAdi" class="input" type="text" placeholder="Kullanıcı adı">
+					</div>
+				</div>
+
+				<div class="input-div two">
+					<div class="i">
+						<i class="fas fa-lock"></i>
+					</div>
+					<div>
+						<input name="VeterinerSifre" class="input" type="password" placeholder="Şifre">
+					</div>
+				</div>
+				<br>
+				<input type="submit" class="btn" value="Giriş yap">
+				@ViewBag.Message
+				<a href="/Home/Login"><input id="kullanici" type="button" class="btn2" value="Kullanıcı girişi"></a>
+			</form>
+		</div>
+		</div>
+		</div>
+
+</body>
+@section Styles
+{
+<link rel="stylesheet" href="~/css/Login.css">
+<link rel="stylesheet" href="~/css/tasarim.css">
+}
+@section Scripts
+{	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+}
