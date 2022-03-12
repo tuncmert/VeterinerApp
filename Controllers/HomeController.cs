@@ -86,8 +86,6 @@ namespace Veterinerapp.Controllers
             return View();
         }
 
-
-        // [LoginControlFilter]
         public IActionResult Index()
         {
             ViewBag.kurumSayisi = _context.Kurums.Count();
@@ -100,12 +98,7 @@ namespace Veterinerapp.Controllers
         {
             return View();
         }
-        // [LoginControlFilter]
-        // public IActionResult denemeLogin()
-        // {
-        //     return View();
-        //     HttpContext.Session.SetString("loginId", "1");
-        // }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
