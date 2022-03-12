@@ -100,20 +100,7 @@ namespace Veterinerapp.Controllers
             var veteriner = _context.Veteriners.Include(o => o.Kurum).Include(o => o.Pets).ThenInclude(O => O.PetSahip).FirstOrDefault(o => o.VeterinerId == id);
             return View(veteriner);
         }
-        // [HttpPost]
-        // public IActionResult VeterinerDuzenleAjax([FromBody] Veteriner veteriner)
-        // {
-        //     if (veteriner == null) return Json("0");
-        //     var guncellenecekVeteriner = _context.Veteriners.FirstOrDefault(o => o.VeterinerId == veteriner.VeterinerId);
-        //     guncellenecekVeteriner.VeterinerAd = veteriner.VeterinerAd;
-        //     guncellenecekVeteriner.VeterinerSoyad = veteriner.VeterinerSoyad;
-        //     guncellenecekVeteriner.VeterinerTelefon = veteriner.VeterinerTelefon;
-        //     guncellenecekVeteriner.VeterinerAktifMi = veteriner.VeterinerAktifMi;
-        //     guncellenecekVeteriner.VeterinerKullaniciAdi = veteriner.VeterinerKullaniciAdi;
-        //     guncellenecekVeteriner.VeterinerSifre = veteriner.VeterinerSifre;
-        //     _context.SaveChanges();
-        //     return Json("1");
-        // }
+
         [HttpPost]
         public IActionResult VeterinerSilAjax([FromBody] Veteriner veteriner)
         {
